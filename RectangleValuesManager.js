@@ -1,10 +1,24 @@
+let colorScoreMap = {
+    2: new RGBA(72, 200, 208), 
+    4: new RGBA(238, 133, 74),
+    8: new RGBA(106, 204, 100),
+    16: new RGBA(214, 95, 95),
+    32: new RGBA(149, 108, 180),
+    64: new RGBA(140, 97, 60),
+    128: new RGBA(220, 126, 192),
+    256: new RGBA(121, 121, 121),
+    512: new RGBA(213, 187, 103),
+    1024: new RGBA(130, 198, 226),
+    2048: new RGBA(72, 120, 208)
+}
+
 class RectangleValuesManager {
     constructor() {
         this.activeRV = new RectangleValue(canvas, 
                                            0.5, 0.1,
                                            0.1, 0.1, 
                                            new RGBA(0,0,0,0), 
-                                           new RGBA(100,100,100))
+                                           colorScoreMap[2])
         /**
          * 
         * @type {RectangleValue[]}
@@ -82,14 +96,16 @@ class RectangleValuesManager {
             return
         }
 
+        let newScore = this.getRandomPowerOf2(1, Math.ceil(Math.log2(1 + PlayerScore)) / 2) 
+
         this.previousActiveRV = this.activeRV
         this.inactiveRVs.push(this.activeRV)
         this.activeRV = new RectangleValue(canvas, 
             0.5, 0.1,
             0.1, 0.1, 
             new RGBA(0,0,0,0), 
-            new RGBA(100,100,100),
-            this.getRandomPowerOf2(1, Math.ceil(Math.log2(1 + PlayerScore)) / 2   ))
+            colorScoreMap[newScore] || new RGBA(0,0,0),
+            newScore)
     }
 
 
@@ -130,6 +146,9 @@ class RectangleValuesManager {
                 )
             ) {
                 inactiveRV.doubleScore()
+                inactiveRV.setFillColor(
+                    colorScoreMap[inactiveRV.getScore()] || new RGBA(0,0,0)
+                )
 
                 PlayerScore += inactiveRV.getScore()
                 

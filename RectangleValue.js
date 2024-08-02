@@ -75,6 +75,10 @@ class RectangleValue {
         this.y = y 
     }
 
+    setFillColor(rgba) {
+        this.fillColor = rgba
+    }
+
     getX() {
         return this.x 
     }
