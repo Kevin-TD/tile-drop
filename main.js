@@ -33,11 +33,8 @@ async function update() {
     background.draw()
     rectangleValuesManager.draw()
 
-
-    if (!rectangleValuesManager.activeRVIsTouchingGround() && 
-        !rectangleValuesManager.activeRVIsTouchingAnInactiveRV()
-        
-        ) {
+    
+    if (rectangleValuesManager.activeRVIsNotTouchingAnything()) {
         rectangleValuesManager.changeActiveRVYBy(0.5 / FPS)
     } else {
         rectangleValuesManager.generateNewActiveRV()

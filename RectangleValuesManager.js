@@ -73,10 +73,12 @@ class RectangleValuesManager {
         this.PlayerScore = 0 
     }
 
+    /** @private */
     activeRVIsTouchingGround() {
         return this.activeRV.getY() + this.activeRV.getHeight() >= 1
     }
 
+    /** @private */
     activeRVIsTouchingAnInactiveRV() {
         for (let i = 0; i < this.inactiveRVs.length; i++) {
             let inactiveRV = this.inactiveRVs[i]
@@ -90,6 +92,10 @@ class RectangleValuesManager {
         }
 
         return false 
+    }
+
+    activeRVIsNotTouchingAnything() {
+        return !this.activeRVIsTouchingGround() && !this.activeRVIsTouchingAnInactiveRV() 
     }
 
     changeActiveRVYBy(changeAmount) {
