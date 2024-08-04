@@ -60,6 +60,16 @@ class RectangleValuesManager {
         }
     }
 
+    restartGame() {
+        this.activeRV = new RectangleValue(canvas, 
+            0.5, 0.1,
+            0.1, 0.1, 
+            new RGBA(0,0,0,0), 
+            colorScoreMap[2])
+        this.inactiveRVs = []
+        this.previousActiveRV = undefined
+    }
+
     activeRVIsTouchingGround() {
         return this.activeRV.getY() + this.activeRV.getHeight() >= 1
     }

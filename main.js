@@ -21,6 +21,13 @@ onkeydown = (e) => {
     if (e.key == "ArrowLeft") {
         rectangleValuesManager.moveActiveRVLeft()
     }
+
+    if (e.key == "Enter") {
+        if (rectangleValuesManager.gameIsOver()) {
+            rectangleValuesManager.restartGame()
+            PlayerScore = 0
+        }
+    }
 }
 
 
