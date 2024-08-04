@@ -29,6 +29,8 @@ class RectangleValuesManager {
          * @type {RectangleValue}
          */
         this.previousActiveRV = undefined
+
+        this.PlayerScore = 0
     }
 
     moveActiveRVLeft() {
@@ -68,6 +70,7 @@ class RectangleValuesManager {
             colorScoreMap[2])
         this.inactiveRVs = []
         this.previousActiveRV = undefined
+        this.PlayerScore = 0 
     }
 
     activeRVIsTouchingGround() {
@@ -106,7 +109,7 @@ class RectangleValuesManager {
             return
         }
 
-        let newScore = this.getRandomPowerOf2(1, Math.ceil(Math.log2(1 + PlayerScore)) / 2) 
+        let newScore = this.getRandomPowerOf2(1, Math.ceil(Math.log2(1 + this.PlayerScore)) / 2) 
 
         this.previousActiveRV = this.activeRV
         this.inactiveRVs.push(this.activeRV)
@@ -160,7 +163,7 @@ class RectangleValuesManager {
                     colorScoreMap[inactiveRV.getScore()] || new RGBA(0,0,0)
                 )
 
-                PlayerScore += inactiveRV.getScore()
+                this.PlayerScore += inactiveRV.getScore()
                 
                 // delete this.previousActiveRV 
                 let index = this.inactiveRVs.indexOf(this.previousActiveRV)
@@ -173,6 +176,10 @@ class RectangleValuesManager {
         }
 
 
+    }
+
+    getPlayerScore() {
+        return this.PlayerScore
     }
 
     gameIsOver() {
