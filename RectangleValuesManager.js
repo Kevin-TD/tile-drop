@@ -71,7 +71,7 @@ class RectangleValuesManager {
             0.5, 0.1,
             0.1, 0.1, 
             new RGBA(0,0,0,0), 
-            getColorFromColorScoreMap[2])
+            getColorFromColorScoreMap(2))
         this.inactiveRVs = []
         this.previousActiveRV = undefined
         this.PlayerScore = 0 
