@@ -1,40 +1,35 @@
-const COLOR_SCORE_MAP = {
-    2: new RGBA(72, 200, 208), 
-    4: new RGBA(238, 133, 74),
-    8: new RGBA(106, 204, 100),
-    16: new RGBA(214, 95, 95),
-    32: new RGBA(149, 108, 180),
-    64: new RGBA(140, 97, 60),
-    128: new RGBA(220, 126, 192),
-    256: new RGBA(121, 121, 121),
-    512: new RGBA(213, 187, 103),
-    1024: new RGBA(130, 198, 226),
-    2048: new RGBA(72, 120, 208),
-}
-
 function getColorFromColorScoreMap(score) {
     return COLOR_SCORE_MAP[score] || new RGBA(0, 0, 0, 0)
 }
 
 class RectangleValuesManager {
-    constructor() {
+    constructor(canvas) {
+        /**@private */
         this.activeRV = new RectangleValue(canvas, 
-                                           0.5, 0.1,
-                                           0.1, 0.1, 
-                                           new RGBA(0,0,0,0), 
+                                           NEW_RECTANGLE_START_X, NEW_RECTANGLE_START_Y,
+                                           NEW_RECTANGLE_WIDTH, NEW_RECTANGLE_HEIGHT, 
+                                           NEW_RECTANGLE_OUTLINE_COLOR, 
                                            getColorFromColorScoreMap(2))
         /**
-         * 
+        * @private
         * @type {RectangleValue[]}
         */
         this.inactiveRVs = []
         
         /**
+         * @private
          * @type {RectangleValue}
          */
         this.previousActiveRV = undefined
-
+        
+        /**@private */
         this.PlayerScore = 0
+        
+        /**@private */
+        this.canvas = canvas 
+
+        /**@private */
+        this.ctx = canvas.getContext('2d')
     }
 
     moveActiveRVLeft() {
@@ -68,9 +63,9 @@ class RectangleValuesManager {
 
     restartGame() {
         this.activeRV = new RectangleValue(canvas, 
-            0.5, 0.1,
-            0.1, 0.1, 
-            new RGBA(0,0,0,0), 
+            NEW_RECTANGLE_START_X, NEW_RECTANGLE_START_Y,
+            NEW_RECTANGLE_WIDTH, NEW_RECTANGLE_HEIGHT, 
+            NEW_RECTANGLE_OUTLINE_COLOR, 
             getColorFromColorScoreMap(2))
         this.inactiveRVs = []
         this.previousActiveRV = undefined
@@ -124,9 +119,9 @@ class RectangleValuesManager {
         this.previousActiveRV = this.activeRV
         this.inactiveRVs.push(this.activeRV)
         this.activeRV = new RectangleValue(canvas, 
-            0.5, 0.1,
-            0.1, 0.1, 
-            new RGBA(0,0,0,0), 
+            NEW_RECTANGLE_START_X, NEW_RECTANGLE_START_Y,
+            NEW_RECTANGLE_WIDTH, NEW_RECTANGLE_HEIGHT, 
+            NEW_RECTANGLE_OUTLINE_COLOR, 
             getColorFromColorScoreMap(newScore),
             newScore)
     }
@@ -204,11 +199,21 @@ class RectangleValuesManager {
         return false 
     }
 
-    draw() {
+    drawTiles() {
         this.activeRV.draw()
 
         for (let i = 0; i < this.inactiveRVs.length; i++) {
             this.inactiveRVs[i].draw()
         }
+    }
+
+    drawScore() {
+        this.ctx.textAlign = SCORE_TEXT_ALIGN
+        this.ctx.textBaseline = SCORE_TEXT_BASELINE
+        this.ctx.fillStyle = SCORE_TEXT_FILL_STYLE
+        this.ctx.font = `${this.canvas.width / 10}px Arial`
+        this.ctx.fillText(rectangleValuesManager.getPlayerScore(), 
+                            SCORE_X_POSITION * this.canvas.width, 
+                            SCORE_Y_POSITION * this.canvas.height)
     }
 }
