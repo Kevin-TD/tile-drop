@@ -1,5 +1,5 @@
 function getColorFromColorScoreMap(score) {
-    return COLOR_SCORE_MAP[score] || new RGBA(0, 0, 0, 0)
+    return COLOR_SCORE_MAP[score] || new RGBA(0, 0, 0)
 }
 
 class RectangleValuesManager {
